@@ -4,9 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>World Forum 配布資料一覧</title>
-<script>
-  try { const t = localStorage.getItem("theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}
-</script>
 <style>
   :root {
     --bg: #0b121c;
@@ -22,25 +19,7 @@
     --glow-2: rgba(247,135,63,.14);
     --badge-bg: rgba(11,18,28,.8);
     --shadow: 0 10px 28px rgba(0,0,0,.45);
-    --logo-light: none; --logo-dark: block;
     color-scheme: dark;
-  }
-  :root[data-theme="light"] {
-    --bg: #fbf8f4;
-    --surface: #ffffff;
-    --surface-2: #f1ebe4;
-    --line: #e6ddd3;
-    --text: #2b2a2e;
-    --muted: #6f6a66;
-    --accent: #ee7a2b;
-    --accent-ink: #ffffff;
-    --orange: #ee7a2b;
-    --glow-1: rgba(238,122,43,.20);
-    --glow-2: rgba(247,170,90,.18);
-    --badge-bg: rgba(255,255,255,.92);
-    --shadow: 0 12px 28px rgba(150,90,40,.22);
-    --logo-light: block; --logo-dark: none;
-    color-scheme: light;
   }
   * { box-sizing: border-box; }
   body {
@@ -56,15 +35,7 @@
   .wrap { max-width: 1280px; margin: 0 auto; padding: 40px 24px 80px; }
 
   .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
-  .logo { height: 40px; width: auto; }  /* PC: 40px / モバイル: 19px（両テーマで同サイズ） */
-  .logo-on-dark { display: var(--logo-dark); }
-  .logo-on-light { display: var(--logo-light); }
-  .theme-btn {
-    font: inherit; font-size: 14px; color: var(--text); cursor: pointer;
-    background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
-    padding: 7px 16px; transition: border-color .15s;
-  }
-  .theme-btn:hover { border-color: var(--accent); }
+  .logo { height: 40px; width: auto; }  /* PC: 40px / モバイル: 19px */
   header h1 { margin: 0; font-size: clamp(28px, 4vw, 40px); letter-spacing: .02em; }
   header p { margin: 4px 0 0; color: var(--muted); }
   .event {
@@ -115,8 +86,35 @@
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .meta { margin: 0; font-size: 13px; color: var(--muted); }
 
+  .dl-btn {
+    font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; white-space: nowrap;
+    background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 999px; padding: 10px 20px;
+    transition: filter .15s;
+  }
+  .dl-btn:hover { filter: brightness(1.1); }
+  dialog {
+    width: min(460px, calc(100vw - 32px)); padding: 28px; color: var(--text);
+    background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--orange);
+    border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.6);
+  }
+  dialog::backdrop { background: rgba(5,9,15,.7); backdrop-filter: blur(3px); }
+  dialog h2 { margin: 0 0 6px; font-size: 20px; }
+  dialog .lead { margin: 0 0 18px; color: var(--muted); font-size: 14px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .field { display: block; margin-bottom: 14px; font-size: 13px; color: var(--muted); }
+  .field input {
+    display: block; width: 100%; margin-top: 4px; font: inherit; font-size: 16px; color: var(--text);
+    background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px;
+  }
+  .consent { display: flex; gap: 8px; align-items: flex-start; margin: 4px 0 18px; font-size: 12px; color: var(--muted); }
+  .consent input { margin-top: 3px; accent-color: var(--orange); }
+  .actions { display: flex; gap: 10px; justify-content: flex-end; }
+  .btn-sub { font: inherit; font-size: 14px; cursor: pointer; color: var(--text); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 10px 20px; }
+  .msg { margin: 12px 0 0; font-size: 14px; }
+  .msg.err { color: #ff8a7a; }
   .partner { margin-top: 56px; padding-top: 8px; border-top: 1px dashed var(--line); }
   .partner .sec-head h2 { font-size: 18px; border-left-color: var(--muted); }
+  .partner-logo { display: block; height: 36px; width: auto; margin: 16px 0 14px; }
   .partner-lead { margin: -4px 0 16px; color: var(--muted); font-size: 14px; }
   .empty { color: var(--muted); padding: 40px 0; text-align: center; }
   footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
@@ -133,11 +131,8 @@
 <div class="wrap">
   <header>
     <div class="topbar">
-      <a href="." aria-label="シスラボ">
-        <img class="logo logo-on-dark" src="logo.svg" alt="シスラボ">
-        <img class="logo logo-on-light" src="logo-light.svg" alt="">
-      </a>
-      <button class="theme-btn" id="theme" type="button"></button>
+      <a href="." aria-label="シスラボ"><img class="logo" src="logo.svg" alt="シスラボ"></a>
+      <button class="dl-btn" id="dl-open" type="button">⬇ 資料を一括ダウンロード</button>
     </div>
     <span class="event">ServiceNow World Forum Tokyo 2026</span>
     <h1>配布資料一覧</h1>
@@ -161,6 +156,7 @@
   </section>
 
   <section id="partner-sec" class="partner">
+    <img class="partner-logo" src="nowtech-logo.svg" alt="NowTech">
     <div class="sec-head"><h2>NowTech も出展・登壇します</h2></div>
     <p class="partner-lead">シスラボとともに、合弁会社 NowTech も World Forum に出展・登壇します。あわせてご覧ください。</p>
     <div class="grid" id="partner"></div>
@@ -168,6 +164,25 @@
 
   <footer>© 2026 SYSLABO ／ NowTech</footer>
 </div>
+
+<dialog id="dl-dialog" aria-labelledby="dl-title">
+  <form id="dl-form" novalidate>
+    <h2 id="dl-title">資料を一括ダウンロード</h2>
+    <p class="lead">すべての配布資料をまとめて、ご入力のメールアドレスにお送りします。</p>
+    <div class="row">
+      <label class="field">姓<input name="last_name" autocomplete="family-name" required></label>
+      <label class="field">名<input name="first_name" autocomplete="given-name" required></label>
+    </div>
+    <label class="field">メールアドレス<input name="email" type="email" autocomplete="email" inputmode="email" required></label>
+    <label class="consent"><input type="checkbox" name="consent" required>
+      <span>ご入力いただいた情報は、資料のお届けおよび今後のご案内のために、株式会社シスラボが利用することに同意します。</span></label>
+    <div class="actions">
+      <button type="button" class="btn-sub" id="dl-cancel">閉じる</button>
+      <button type="submit" class="dl-btn" id="dl-submit">送信する</button>
+    </div>
+    <p class="msg" id="dl-msg" role="status" hidden></p>
+  </form>
+</dialog>
 
 <script>
 const DOCS = [
@@ -220,14 +235,29 @@ $("chips").addEventListener("click", e => {
 });
 $("q").addEventListener("input", render);
 
-const root = document.documentElement;
-function paintTheme() { $("theme").textContent = root.dataset.theme === "light" ? "🌙 ダークに切り替え" : "☀ ライトに切り替え"; }
-$("theme").addEventListener("click", () => {
-  root.dataset.theme = root.dataset.theme === "light" ? "dark" : "light";
-  try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
-  paintTheme();
+// ---- 一括ダウンロード（メール送付） ----
+// DL_ENDPOINT に送信先（メール送信を行うAPIのURL）を設定すると有効になります。
+const DL_ENDPOINT = "";
+const dlg = $("dl-dialog"), form = $("dl-form"), msg = $("dl-msg");
+const say = (t, err) => { msg.textContent = t; msg.className = "msg" + (err ? " err" : ""); msg.hidden = !t; };
+$("dl-open").addEventListener("click", () => { form.reset(); say(""); $("dl-submit").disabled = false; dlg.showModal(); });
+$("dl-cancel").addEventListener("click", () => dlg.close());
+dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  const f = new FormData(form);
+  const last = f.get("last_name").trim(), first = f.get("first_name").trim(), email = f.get("email").trim();
+  if (!last || !first) return say("姓と名を入力してください。", true);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return say("メールアドレスの形式をご確認ください。", true);
+  if (!f.get("consent")) return say("個人情報の取り扱いへの同意にチェックしてください。", true);
+  if (!DL_ENDPOINT) return say("現在、送信機能を準備中です。", true);
+  $("dl-submit").disabled = true; say("送信中…");
+  try {
+    const r = await fetch(DL_ENDPOINT, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ last_name: last, first_name: first, email }) });
+    if (!r.ok) throw new Error(r.status);
+    say(email + " 宛に送信しました。メールをご確認ください（届かない場合は迷惑メールフォルダもご確認ください）。");
+  } catch (err) { say("送信に失敗しました。時間をおいて再度お試しください。", true); $("dl-submit").disabled = false; }
 });
-paintTheme();
 render();
 </script>
 </body>
