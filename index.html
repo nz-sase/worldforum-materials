@@ -93,25 +93,17 @@
   }
   .dl-btn:hover { filter: brightness(1.1); }
   dialog {
-    width: min(460px, calc(100vw - 32px)); padding: 28px; color: var(--text);
+    width: min(560px, calc(100vw - 24px)); height: min(760px, calc(100vh - 24px)); padding: 0; color: var(--text);
     background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--orange);
-    border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.6);
+    border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.6); overflow: hidden;
   }
+  dialog[open] { display: flex; flex-direction: column; }
   dialog::backdrop { background: rgba(5,9,15,.7); backdrop-filter: blur(3px); }
-  dialog h2 { margin: 0 0 6px; font-size: 20px; }
-  dialog .lead { margin: 0 0 18px; color: var(--muted); font-size: 14px; }
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .field { display: block; margin-bottom: 14px; font-size: 13px; color: var(--muted); }
-  .field input {
-    display: block; width: 100%; margin-top: 4px; font: inherit; font-size: 16px; color: var(--text);
-    background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px;
-  }
-  .consent { display: flex; gap: 8px; align-items: flex-start; margin: 4px 0 18px; font-size: 12px; color: var(--muted); }
-  .consent input { margin-top: 3px; accent-color: var(--orange); }
-  .actions { display: flex; gap: 10px; justify-content: flex-end; }
-  .btn-sub { font: inherit; font-size: 14px; cursor: pointer; color: var(--text); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 10px 20px; }
-  .msg { margin: 12px 0 0; font-size: 14px; }
-  .msg.err { color: #ff8a7a; }
+  .dl-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .btn-sub { font: inherit; font-size: 14px; cursor: pointer; color: var(--text); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 6px 16px; }
+  #dl-frame { flex: 1; width: 100%%; border: 0; background: #fff; }
+  .dl-note { margin: 0; padding: 8px 16px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); }
+  .dl-note a { color: var(--accent); }
   .partner { margin-top: 56px; padding-top: 8px; border-top: 1px dashed var(--line); }
   .partner .sec-head h2 { font-size: 18px; border-left-color: var(--muted); }
   .partner-logo { display: block; height: 36px; width: auto; margin: 16px 0 14px; }
@@ -165,23 +157,13 @@
   <footer>© 2026 SYSLABO ／ NowTech</footer>
 </div>
 
-<dialog id="dl-dialog" aria-labelledby="dl-title">
-  <form id="dl-form" novalidate>
-    <h2 id="dl-title">資料を一括ダウンロード</h2>
-    <p class="lead">すべての配布資料をまとめて、ご入力のメールアドレスにお送りします。</p>
-    <div class="row">
-      <label class="field">姓<input name="last_name" autocomplete="family-name" required></label>
-      <label class="field">名<input name="first_name" autocomplete="given-name" required></label>
-    </div>
-    <label class="field">メールアドレス<input name="email" type="email" autocomplete="email" inputmode="email" required></label>
-    <label class="consent"><input type="checkbox" name="consent" required>
-      <span>ご入力いただいた情報は、資料のお届けおよび今後のご案内のために、株式会社シスラボが利用することに同意します。</span></label>
-    <div class="actions">
-      <button type="button" class="btn-sub" id="dl-cancel">閉じる</button>
-      <button type="submit" class="dl-btn" id="dl-submit">送信する</button>
-    </div>
-    <p class="msg" id="dl-msg" role="status" hidden></p>
-  </form>
+<dialog id="dl-dialog" aria-label="資料を一括ダウンロード">
+  <div class="dl-head">
+    <strong>資料を一括ダウンロード</strong>
+    <button type="button" class="btn-sub" id="dl-cancel">閉じる</button>
+  </div>
+  <iframe id="dl-frame" title="資料請求フォーム" loading="lazy"></iframe>
+  <p class="dl-note">表示されない場合は <a id="dl-ext" target="_blank" rel="noopener">こちらから別のタブで開く</a></p>
 </dialog>
 
 <script>
@@ -235,29 +217,16 @@ $("chips").addEventListener("click", e => {
 });
 $("q").addEventListener("input", render);
 
-// ---- 一括ダウンロード（メール送付） ----
-// DL_ENDPOINT に送信先（メール送信を行うAPIのURL）を設定すると有効になります。
-const DL_ENDPOINT = "";
-const dlg = $("dl-dialog"), form = $("dl-form"), msg = $("dl-msg");
-const say = (t, err) => { msg.textContent = t; msg.className = "msg" + (err ? " err" : ""); msg.hidden = !t; };
-$("dl-open").addEventListener("click", () => { form.reset(); say(""); $("dl-submit").disabled = false; dlg.showModal(); });
+// ---- 一括ダウンロード（Microsoft Forms） ----
+const FORM_URL = "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gB-McVykvUW-6uYJiUoaSuxHkaCghfpOg1lrRgKgWxpURElDVTZZU1FJUTYyU1VSRk1ZRUJOTFNSQy4u";
+const dlg = $("dl-dialog"), frame = $("dl-frame");
+$("dl-ext").href = FORM_URL;
+$("dl-open").addEventListener("click", () => {
+  if (!frame.src) frame.src = FORM_URL + "&embed=true";
+  dlg.showModal();
+});
 $("dl-cancel").addEventListener("click", () => dlg.close());
 dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
-form.addEventListener("submit", async e => {
-  e.preventDefault();
-  const f = new FormData(form);
-  const last = f.get("last_name").trim(), first = f.get("first_name").trim(), email = f.get("email").trim();
-  if (!last || !first) return say("姓と名を入力してください。", true);
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return say("メールアドレスの形式をご確認ください。", true);
-  if (!f.get("consent")) return say("個人情報の取り扱いへの同意にチェックしてください。", true);
-  if (!DL_ENDPOINT) return say("現在、送信機能を準備中です。", true);
-  $("dl-submit").disabled = true; say("送信中…");
-  try {
-    const r = await fetch(DL_ENDPOINT, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ last_name: last, first_name: first, email }) });
-    if (!r.ok) throw new Error(r.status);
-    say(email + " 宛に送信しました。メールをご確認ください（届かない場合は迷惑メールフォルダもご確認ください）。");
-  } catch (err) { say("送信に失敗しました。時間をおいて再度お試しください。", true); $("dl-submit").disabled = false; }
-});
 render();
 </script>
 </body>
