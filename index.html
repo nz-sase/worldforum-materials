@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>World Forum 配布資料一覧</title>
+<script>
+  try { const t = localStorage.getItem("theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+<style>
+  :root {
+    --bg: #0b121c;
+    --surface: #111b29;
+    --surface-2: #16243a;
+    --line: #22324a;
+    --text: #e8eef7;
+    --muted: #8fa3bd;
+    --accent: #f7873f;
+    --accent-ink: #1f1006;
+    --orange: #f7873f;
+    --glow-1: rgba(247,135,63,.22);
+    --glow-2: rgba(247,135,63,.14);
+    --badge-bg: rgba(11,18,28,.8);
+    --shadow: 0 10px 28px rgba(0,0,0,.45);
+    --logo-light: none; --logo-dark: block;
+    color-scheme: dark;
+  }
+  :root[data-theme="light"] {
+    --bg: #fbf8f4;
+    --surface: #ffffff;
+    --surface-2: #f1ebe4;
+    --line: #e6ddd3;
+    --text: #2b2a2e;
+    --muted: #6f6a66;
+    --accent: #ee7a2b;
+    --accent-ink: #ffffff;
+    --orange: #ee7a2b;
+    --glow-1: rgba(238,122,43,.20);
+    --glow-2: rgba(247,170,90,.18);
+    --badge-bg: rgba(255,255,255,.92);
+    --shadow: 0 12px 28px rgba(150,90,40,.22);
+    --logo-light: block; --logo-dark: none;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; color: var(--text); line-height: 1.6;
+    border-top: 6px solid var(--orange);
+    background:
+      radial-gradient(1000px 480px at 100% 0%, var(--glow-1), transparent 70%),
+      radial-gradient(800px 600px at 0% 100%, var(--glow-2), transparent 70%),
+      var(--bg);
+    background-attachment: fixed;
+    font-family: "Hiragino Sans", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+  }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
+  .logo { height: 40px; width: auto; }
+  .logo-on-dark { display: var(--logo-dark); }
+  .logo-on-light { display: var(--logo-light); }
+  .theme-btn {
+    font: inherit; font-size: 14px; color: var(--text); cursor: pointer;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+    padding: 7px 16px; transition: border-color .15s;
+  }
+  .theme-btn:hover { border-color: var(--accent); }
+  header h1 { margin: 0; font-size: clamp(28px, 4vw, 40px); letter-spacing: .02em; }
+  header p { margin: 4px 0 0; color: var(--muted); }
+  .event {
+    display: inline-block; margin-bottom: 10px; padding: 2px 12px;
+    border: 1px solid var(--line); border-radius: 999px; font-size: 13px; color: var(--accent);
+  }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 28px 0 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; flex: 1; }
+  .chip {
+    font: inherit; font-size: 15px; color: var(--text); cursor: pointer;
+    background: transparent; border: 1px solid var(--line); border-radius: 999px;
+    padding: 8px 22px; transition: background .15s, border-color .15s;
+  }
+  .chip:hover { border-color: var(--accent); }
+  .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+  .search {
+    font: inherit; font-size: 14px; color: var(--text); width: 220px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 9px 14px;
+  }
+  .search::placeholder { color: var(--muted); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  section { margin-top: 40px; }
+  .sec-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; }
+  .sec-head h2 { margin: 0; font-size: 22px; padding-left: 12px; border-left: 4px solid var(--orange); }
+  .count { color: var(--muted); font-size: 14px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 24px 20px; }
+
+  .card { display: block; color: inherit; text-decoration: none; }
+  .thumb {
+    position: relative; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--line); background: var(--surface-2);
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+  }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card:hover .thumb, .card:focus-visible .thumb {
+    transform: translateY(-3px); border-color: var(--accent); box-shadow: var(--shadow);
+  }
+  .badge {
+    position: absolute; top: 10px; right: 10px;
+    padding: 2px 12px; border-radius: 999px; font-size: 13px; font-weight: 700;
+    background: var(--badge-bg); border: 1px solid var(--line); color: var(--text); backdrop-filter: blur(4px);
+  }
+  .card h3 { margin: 12px 0 2px; font-size: 18px; line-height: 1.4; }
+  .desc { margin: 0 0 6px; font-size: 14px; opacity: .85;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .meta { margin: 0; font-size: 13px; color: var(--muted); }
+
+  .partner { margin-top: 56px; padding-top: 8px; border-top: 1px dashed var(--line); }
+  .partner .sec-head h2 { font-size: 18px; border-left-color: var(--muted); }
+  .partner-lead { margin: -4px 0 16px; color: var(--muted); font-size: 14px; }
+  .empty { color: var(--muted); padding: 40px 0; text-align: center; }
+  footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+
+  @media (max-width: 600px) {
+    .wrap { padding: 28px 16px 60px; }
+    .search { width: 100%; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="topbar">
+      <a href="." aria-label="シスラボ">
+        <img class="logo logo-on-dark" src="logo.svg" alt="シスラボ">
+        <img class="logo logo-on-light" src="logo-dark.svg" alt="">
+      </a>
+      <button class="theme-btn" id="theme" type="button"></button>
+    </div>
+    <span class="event">ServiceNow World Forum Tokyo 2026</span>
+    <h1>配布資料一覧</h1>
+    <p>サムネイルから、知りたい資料へ。</p>
+  </header>
+
+  <div class="toolbar">
+    <div class="chips" id="chips" role="group" aria-label="カテゴリ"></div>
+    <input class="search" id="q" type="search" placeholder="キーワードで探す" aria-label="キーワード検索">
+  </div>
+
+  <section id="pickup-sec">
+    <div class="sec-head"><h2>まずはこちらから</h2></div>
+    <div class="grid" id="pickup"></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2 id="list-title">すべての資料</h2><span class="count" id="count"></span></div>
+    <div class="grid" id="list"></div>
+    <p class="empty" id="empty" hidden>該当する資料がありません。</p>
+  </section>
+
+  <section id="partner-sec" class="partner">
+    <div class="sec-head"><h2>NowTech も出展・登壇します</h2></div>
+    <p class="partner-lead">シスラボとともに、合弁会社 NowTech も World Forum に出展・登壇します。あわせてご覧ください。</p>
+    <div class="grid" id="partner"></div>
+  </section>
+
+  <footer>© 2026 SYSLABO ／ NowTech</footer>
+</div>
+
+<script>
+const DOCS = [
+  { title: "会社案内 ― AI時代のServiceNowパートナー", desc: "シスラボのAI活用・導入支援の取り組みと、選ばれる理由をご紹介。", company: "シスラボ", cat: "企業紹介", pages: 28, file: "docs/doc3.pdf", thumb: "thumbs/doc3.jpg", pickup: true },
+  { title: "ServiceNow内製サポート ご紹介資料", desc: "ServiceNowを自社で運用・開発していくための内製化支援サービス。", company: "シスラボ", cat: "サービス紹介", pages: 63, file: "docs/doc6.pdf", thumb: "thumbs/doc6.jpg", pickup: true },
+  { title: "ServiceNow活用診断サービス ご紹介資料", desc: "コスト最適化と活用促進の両面から、現行のServiceNowを診断・ご提案。", company: "シスラボ", cat: "サービス紹介", pages: 20, file: "docs/doc7.pdf", thumb: "thumbs/doc7.jpg", pickup: true },
+  { title: "講演資料 スポンサーセッション", desc: "World Forum 2026 スポンサーセッション「with EmployeeWorks」の講演資料。", company: "シスラボ", cat: "講演資料", pages: 28, file: "docs/doc1.pdf", thumb: "thumbs/doc1.jpg" },
+  { title: "講演資料 分科会", desc: "World Forum 2026 分科会「with AI」の講演資料。構築コスト5割・期間7割短縮の工夫を解説。", company: "シスラボ", cat: "講演資料", pages: 31, file: "docs/doc2.pdf", thumb: "thumbs/doc2.jpg" },
+  { title: "内製チームによる自社での保守運用実現に向けて", desc: "Theater Demo Sponsorセッションの講演資料。内製チームでの保守運用のポイント。", company: "NowTech", cat: "講演資料", pages: 16, file: "docs/doc4.pdf", thumb: "thumbs/doc4.jpg" },
+  { title: "NowTech 企業概要", desc: "「導入する」から「自走する」へ。伴走型の内製支援を行うNowTechの概要。", company: "NowTech", cat: "企業紹介", pages: 14, file: "docs/doc5.pdf", thumb: "thumbs/doc5.jpg" },
+];
+const MAIN = DOCS.filter(d => d.company !== "NowTech");
+const PARTNER = DOCS.filter(d => d.company === "NowTech");
+const CATS = ["すべて", ...new Set(MAIN.map(d => d.cat))];
+let cat = "すべて";
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+
+function card(d) {
+  return `<a class="card" href="${encodeURI(d.file)}" target="_blank" rel="noopener">
+    <div class="thumb"><span class="badge">PDF ・ ${d.pages}p</span><img src="${esc(d.thumb)}" alt="" loading="lazy"></div>
+    <h3>${esc(d.title)}</h3>
+    <p class="desc">${esc(d.desc)}</p>
+    <p class="meta">${esc(d.company)} ・ ${esc(d.cat)}</p>
+  </a>`;
+}
+
+function render() {
+  const kw = $("q").value.trim().toLowerCase();
+  const hit = d => !kw || (d.title + d.desc + d.cat + d.company).toLowerCase().includes(kw);
+  const items = (cat === "すべて" ? MAIN : DOCS.filter(d => d.cat === cat)).filter(hit);
+  const partner = PARTNER.filter(hit);
+  $("list").innerHTML = items.map(card).join("");
+  $("list-title").textContent = cat === "すべて" ? "すべての資料" : cat;
+  $("count").textContent = items.length + "件";
+  $("empty").hidden = items.length > 0;
+  $("pickup").innerHTML = MAIN.filter(d => d.pickup).map(card).join("");
+  $("partner").innerHTML = partner.map(card).join("");
+  $("partner-sec").hidden = cat !== "すべて" || !partner.length;
+  $("pickup-sec").hidden = cat !== "すべて" || !!kw;
+}
+
+$("chips").innerHTML = CATS.map(c => `<button class="chip" aria-pressed="${c === cat}">${esc(c)}</button>`).join("");
+$("chips").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  cat = b.textContent;
+  [...$("chips").children].forEach(x => x.setAttribute("aria-pressed", x === b));
+  render();
+});
+$("q").addEventListener("input", render);
+
+const root = document.documentElement;
+function paintTheme() { $("theme").textContent = root.dataset.theme === "light" ? "🌙 ダークに切り替え" : "☀ ライトに切り替え"; }
+$("theme").addEventListener("click", () => {
+  root.dataset.theme = root.dataset.theme === "light" ? "dark" : "light";
+  try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
+  paintTheme();
+});
+paintTheme();
+render();
+</script>
+</body>
+</html>
