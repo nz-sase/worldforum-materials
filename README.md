@@ -4,7 +4,7 @@ ServiceNow World Forum Tokyo 2026 のブースで配布する資料（PDF）の�
 QRコードから開き、サムネイル付きの一覧から資料を探して開けます（カテゴリとキーワードで絞り込めます）。
 右上の「資料を受け取る」から名前とメールアドレスを送ると、全資料のZIPを添付したメールが届きます。
 
-公開URL：https://kakesu-mizuki.github.io/worldforum-materials/
+
 
 ## 構成
 
@@ -73,7 +73,7 @@ Power Automate
 メール本文に入れる `download.html` のリンクは、次のURLにしてください。
 
 ```
-https://kakesu-mizuki.github.io/worldforum-materials/download.html
+https://公開URL/download.html
 ```
 
 ## 公開（GitHub Pages）
