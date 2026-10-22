@@ -17,10 +17,10 @@ const SITE = {
 
 const DOCS = [
   { title: "会社案内", desc: "弊社のServiceNow事業の内容と、会社の基本情報、その他の事業をまとめています。", company: "シスラボ", cat: "会社紹介", pages: 28, file: "pdf/Syslabo-CompanyGuide.pdf", thumb: "thumbs/Syslabo-CompanyGuide.jpg", pickup: true },
-  { title: "自社内での ServiceNow×AI 活用事例", desc: "10月27日(火)の講演の資料です。", company: "シスラボ", cat: "講演資料", pages: 31, file: "pdf/Syslabo-talk-CustomerSpotlight.pdf", thumb: "thumbs/Syslabo-talk-CustomerSpotlight.jpg" },
-  { title: "EmployeeWorksの活用事例", desc: "10月28日(水)の講演の資料です。", company: "シスラボ", cat: "講演資料", pages: 28, file: "pdf/Syslabo-talk-SponsorSession.pdf", thumb: "thumbs/Syslabo-talk-SponsorSession.jpg" },
-  { title: "内製サポートサービスのご紹介", desc: "社内でのServiceNow開発・運用を支援する伴走サービスのご紹介です。", company: "シスラボ", cat: "サービス紹介", pages: 63, file: "pdf/Syslabo-naisei-support.pdf", thumb: "thumbs/Syslabo-naisei-support.jpg", pickup: true },
+  { title: "自社内での ServiceNow×AI 活用事例", desc: "10月27日(火)の講演資料です。", company: "シスラボ", cat: "講演資料", pages: 31, file: "pdf/Syslabo-talk-CustomerSpotlight.pdf", thumb: "thumbs/Syslabo-talk-CustomerSpotlight.jpg" },
+  { title: "EmployeeWorksの活用事例", desc: "10月28日(水)の講演資料です。", company: "シスラボ", cat: "講演資料", pages: 28, file: "pdf/Syslabo-talk-SponsorSession.pdf", thumb: "thumbs/Syslabo-talk-SponsorSession.jpg" },
+  { title: "内製サポートサービスのご紹介", desc: "社内でのServiceNow開発・運用を支援する、伴走サービスのご紹介です。", company: "シスラボ", cat: "サービス紹介", pages: 63, file: "pdf/Syslabo-naisei-support.pdf", thumb: "thumbs/Syslabo-naisei-support.jpg", pickup: true },
   { title: "活用診断サービスのご紹介", desc: "現状の活用度を診断し、次の一手を提案するサービスのご紹介です。", company: "シスラボ", cat: "サービス紹介", pages: 20, file: "pdf/Syslabo-katsuyou-shindan.pdf", thumb: "thumbs/Syslabo-katsuyou-shindan.jpg", pickup: true },
   { title: "会社案内", desc: "NowTechの会社概要と事業内容のご紹介です。", company: "NowTech", cat: "会社紹介", pages: 14, file: "pdf/NowTech-CompanyGuide.pdf", thumb: "thumbs/NowTech-CompanyGuide.jpg" },
-  { title: "「内製支援」のご紹介", desc: "10月28日(水)の講演の資料です。", company: "NowTech", cat: "講演資料", pages: 16, file: "pdf/NowTech-talk-SponsorSession.pdf", thumb: "thumbs/NowTech-talk-SponsorSession.jpg" }
+  { title: "「内製支援」のご紹介", desc: "10月28日(水)の講演資料です。", company: "NowTech", cat: "講演資料", pages: 16, file: "pdf/NowTech-talk-SponsorSession.pdf", thumb: "thumbs/NowTech-talk-SponsorSession.jpg" }
 ];

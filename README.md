@@ -75,12 +75,3 @@ Power Automate
 ```
 https://公開URL/download.html
 ```
-
-## 公開（GitHub Pages）
-
-- リポジトリ：kakesu-mizuki/worldforum-materials
-- 公開元：main ブランチのルート（ビルドなし）
-
-main ブランチに反映されると、数分で公開ページも更新されます。
-全ページに `noindex` を付けて、検索エンジンには出ないようにしています。
-ただしリポジトリもページも公開されているので、PDFやこの README は URL が分かれば誰でも見られます。
