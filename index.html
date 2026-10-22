@@ -4,132 +4,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow, noarchive">
-<title>World Forum 配布資料一覧</title>
-<style>
-  :root {
-    --bg: #0b121c;
-    --surface: #111b29;
-    --surface-2: #16243a;
-    --line: #22324a;
-    --text: #e8eef7;
-    --muted: #8fa3bd;
-    --accent: #f7873f;
-    --accent-ink: #1f1006;
-    --orange: #f7873f;
-    --glow-1: rgba(247,135,63,.22);
-    --glow-2: rgba(247,135,63,.14);
-    --badge-bg: rgba(11,18,28,.8);
-    --shadow: 0 10px 28px rgba(0,0,0,.45);
-    color-scheme: dark;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; color: var(--text); line-height: 1.6;
-    border-top: 6px solid var(--orange);
-    background:
-      radial-gradient(1000px 480px at 100% 0%, var(--glow-1), transparent 70%),
-      radial-gradient(800px 600px at 0% 100%, var(--glow-2), transparent 70%),
-      var(--bg);
-    background-attachment: fixed;
-    font-family: "Hiragino Sans", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
-  }
-  .wrap { max-width: 1280px; margin: 0 auto; padding: 40px 24px 80px; }
-
-  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
-  .logo { height: 40px; width: auto; }  /* PC: 40px / モバイル: 19px */
-  header h1 { margin: 0; font-size: clamp(28px, 4vw, 40px); letter-spacing: .02em; }
-  header p { margin: 4px 0 0; color: var(--muted); }
-  .event {
-    display: inline-block; margin-bottom: 10px; padding: 2px 12px;
-    border: 1px solid var(--line); border-radius: 999px; font-size: 13px; color: var(--accent);
-  }
-
-  .toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 28px 0 8px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 10px; flex: 1; }
-  .chip {
-    font: inherit; font-size: 15px; color: var(--text); cursor: pointer;
-    background: transparent; border: 1px solid var(--line); border-radius: 999px;
-    padding: 8px 22px; transition: background .15s, border-color .15s;
-  }
-  .chip:hover { border-color: var(--accent); }
-  .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
-  .search {
-    font: inherit; font-size: 14px; color: var(--text); width: 220px;
-    background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 9px 14px;
-  }
-  .search::placeholder { color: var(--muted); }
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-  section { margin-top: 40px; }
-  .sec-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; }
-  .sec-head h2 { margin: 0; font-size: 22px; padding-left: 12px; border-left: 4px solid var(--orange); }
-  .count { color: var(--muted); font-size: 14px; }
-
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 24px 20px; }
-
-  .card { display: block; color: inherit; text-decoration: none; }
-  .thumb {
-    position: relative; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden;
-    border: 1px solid var(--line); background: var(--surface-2);
-    transition: transform .2s, border-color .2s, box-shadow .2s;
-  }
-  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .card:hover .thumb, .card:focus-visible .thumb {
-    transform: translateY(-3px); border-color: var(--accent); box-shadow: var(--shadow);
-  }
-  .badge {
-    position: absolute; top: 10px; right: 10px;
-    padding: 2px 12px; border-radius: 999px; font-size: 13px; font-weight: 700;
-    background: var(--badge-bg); border: 1px solid var(--line); color: var(--text); backdrop-filter: blur(4px);
-  }
-  .card h3 { margin: 12px 0 2px; font-size: 18px; line-height: 1.4; }
-  .desc { margin: 0 0 6px; font-size: 14px; opacity: .85;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .meta { margin: 0; font-size: 13px; color: var(--muted); }
-
-  .dl-btn {
-    font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; white-space: nowrap;
-    background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 999px; padding: 10px 20px;
-    transition: filter .15s;
-  }
-  .dl-btn:hover { filter: brightness(1.1); }
-  dialog {
-    width: min(560px, calc(100vw - 24px)); height: min(760px, calc(100vh - 24px)); padding: 0; color: var(--text);
-    background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--orange);
-    border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.6); overflow: hidden;
-  }
-  dialog[open] { display: flex; flex-direction: column; }
-  dialog::backdrop { background: rgba(5,9,15,.7); backdrop-filter: blur(3px); }
-  .dl-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--line); }
-  .btn-sub { font: inherit; font-size: 14px; cursor: pointer; color: var(--text); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 6px 16px; }
-  #dl-frame { flex: 1; width: 100%%; border: 0; background: #fff; }
-  .dl-note { margin: 0; padding: 8px 16px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); }
-  .dl-note a { color: var(--accent); }
-  .partner { margin-top: 56px; padding-top: 8px; border-top: 1px dashed var(--line); }
-  .partner .sec-head h2 { font-size: 18px; border-left-color: var(--muted); }
-  .partner-logo { display: block; height: 36px; width: auto; margin: 16px 0 14px; }
-  .partner-lead { margin: -4px 0 16px; color: var(--muted); font-size: 14px; }
-  .empty { color: var(--muted); padding: 40px 0; text-align: center; }
-  footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
-
-  @media (max-width: 600px) {
-    .wrap { padding: 28px 16px 60px; }
-    .logo { height: 19px; }
-    .search { width: 100%; }
-    .grid { grid-template-columns: 1fr; }
-  }
-</style>
+<title>シスラボ 配布資料</title>
+<link rel="icon" href="favicon.ico">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<div class="ribbon">
+  <div class="ribbon-inner">
+    <a class="logos" href="https://www.syslabo.com/" target="_blank" rel="noopener"><img class="logo" src="SyslaboLogo.svg" alt="SYSLABO"></a>
+    <button class="dl-all mail-btn" type="button"></button>
+  </div>
+</div>
+
 <div class="wrap">
   <header>
-    <div class="topbar">
-      <a href="." aria-label="シスラボ"><img class="logo" src="logo.svg" alt="シスラボ"></a>
-      <button class="dl-btn" id="dl-open" type="button">⬇ 資料を一括ダウンロード</button>
-    </div>
-    <span class="event">ServiceNow World Forum Tokyo 2026</span>
+    <span class="event" id="eventName"></span>
     <h1>配布資料一覧</h1>
-    <p>サムネイルから、知りたい資料へ。</p>
+    <p class="lead">弊社ブースにお立ち寄りいただき、誠にありがとうございます。</p>
   </header>
 
   <div class="toolbar">
@@ -149,86 +40,58 @@
   </section>
 
   <section id="partner-sec" class="partner">
-    <img class="partner-logo" src="nowtech-logo.svg" alt="NowTech">
-    <div class="sec-head"><h2>NowTech も出展・登壇します</h2></div>
-    <p class="partner-lead">シスラボとともに、合弁会社 NowTech も World Forum に出展・登壇します。あわせてご覧ください。</p>
+    <a class="partner-logo" href="https://now-tech.jp/" target="_blank" rel="noopener"><img src="NowTechLogo.svg" alt="NowTech"></a>
+    <div class="sec-head"><h2 id="partnerTitle"></h2></div>
+    <p class="partner-lead" id="partnerLead"></p>
     <div class="grid" id="partner"></div>
   </section>
 
-  <footer>© 2026 SYSLABO ／ NowTech</footer>
+  <footer id="footNote"></footer>
 </div>
 
-<dialog id="dl-dialog" aria-label="資料を一括ダウンロード">
-  <div class="dl-head">
-    <strong>資料を一括ダウンロード</strong>
-    <button type="button" class="btn-sub" id="dl-cancel">閉じる</button>
+<!-- 「メールで自分に送る」のフォーム。送信すると Power Automate が資料のZIPを添付したメールを送る -->
+<dialog class="modal" id="mailModal" aria-labelledby="mailModalTitle">
+  <div class="modal-head">
+    <h2 id="mailModalTitle">全ての資料をメールで受け取る</h2>
+    <button class="modal-close" id="mailClose" type="button" aria-label="閉じる">×</button>
   </div>
-  <iframe id="dl-frame" title="資料請求フォーム" loading="lazy"></iframe>
-  <p class="dl-note">表示されない場合は <a id="dl-ext" target="_blank" rel="noopener">こちらから別のタブで開く</a></p>
+  <form class="mail-form" id="mailForm" novalidate>
+    <p class="mail-lead">ご入力いただいたメールアドレスに、全ての資料をまとめたZIPファイルをお送りします。</p>
+    <div class="field">
+      <label for="fName"><span class="tag tag-req">必須</span>お名前</label>
+      <input id="fName" name="name" type="text" autocomplete="name" placeholder="（例）山田 太郎">
+    </div>
+    <div class="field">
+      <label for="fCompany"><span class="tag">任意</span>会社名</label>
+      <input id="fCompany" name="company" type="text" autocomplete="organization" placeholder="（例）株式会社サンプル">
+    </div>
+    <div class="field">
+      <label for="fEmail"><span class="tag tag-req">必須</span>メールアドレス</label>
+      <input id="fEmail" name="email" type="email" autocomplete="email" inputmode="email" placeholder="（例）info@sample.co.jp">
+    </div>
+    <div class="field">
+      <label for="fEmail2"><span class="tag tag-req">必須</span>メールアドレス（確認）</label>
+      <input id="fEmail2" name="email2" type="email" autocomplete="off" inputmode="email" placeholder="もう一度入力してください">
+    </div>
+    <!-- ボット対策。人には見えない欄で、ここに何か入っていたら送らない -->
+    <div class="hp" aria-hidden="true">
+      <label>この欄は空のままにしてください<input name="website" type="text" tabindex="-1" autocomplete="off"></label>
+    </div>
+    <label class="agree">
+      <input name="agree" type="checkbox">
+      <span><a href="https://www.syslabo.com/privacy-policy/" target="_blank" rel="noopener">プライバシーポリシー</a>に同意する</span>
+    </label>
+    <p class="mail-error" id="mailError" role="alert" hidden></p>
+    <button class="mail-submit" id="mailSubmit" type="submit">送信する</button>
+  </form>
+  <div class="mail-done" id="mailDone" hidden>
+    <p class="mail-done-title">送信しました</p>
+    <p>ご入力いただいたメールアドレスに、資料を添付したメールをお送りしました。数分たっても届かない場合は、迷惑メールフォルダもご確認ください。</p>
+  </div>
 </dialog>
 
-<script>
-const DOCS = [
-  { title: "会社案内 ― AI時代のServiceNowパートナー", desc: "シスラボのAI活用・導入支援の取り組みと、選ばれる理由をご紹介。", company: "シスラボ", cat: "企業紹介", pages: 28, file: "docs/doc3.pdf", thumb: "thumbs/doc3.jpg", pickup: true },
-  { title: "講演資料 分科会", desc: "World Forum 2026 分科会「with AI」の講演資料。構築コスト5割・期間7割短縮の工夫を解説。", company: "シスラボ", cat: "講演資料", pages: 31, file: "docs/doc2.pdf", thumb: "thumbs/doc2.jpg" },
-  { title: "講演資料 スポンサーセッション", desc: "World Forum 2026 スポンサーセッション「with EmployeeWorks」の講演資料。", company: "シスラボ", cat: "講演資料", pages: 28, file: "docs/doc1.pdf", thumb: "thumbs/doc1.jpg" },
-  { title: "ServiceNow内製サポート ご紹介資料", desc: "ServiceNowを自社で運用・開発していくための内製化支援サービス。", company: "シスラボ", cat: "サービス紹介", pages: 63, file: "docs/doc6.pdf", thumb: "thumbs/doc6.jpg", pickup: true },
-  { title: "ServiceNow活用診断サービス ご紹介資料", desc: "コスト最適化と活用促進の両面から、現行のServiceNowを診断・ご提案。", company: "シスラボ", cat: "サービス紹介", pages: 20, file: "docs/doc7.pdf", thumb: "thumbs/doc7.jpg", pickup: true },
-  { title: "NowTech 企業概要", desc: "「導入する」から「自走する」へ。伴走型の内製支援を行うNowTechの概要。", company: "NowTech", cat: "企業紹介", pages: 14, file: "docs/doc5.pdf", thumb: "thumbs/doc5.jpg" },
-  { title: "内製チームによる自社での保守運用実現に向けて", desc: "Theater Demo Sponsorセッションの講演資料。内製チームでの保守運用のポイント。", company: "NowTech", cat: "講演資料", pages: 16, file: "docs/doc4.pdf", thumb: "thumbs/doc4.jpg" },
-];
-const MAIN = DOCS.filter(d => d.company !== "NowTech");
-const PARTNER = DOCS.filter(d => d.company === "NowTech");
-const CATS = ["すべて", ...new Set(MAIN.map(d => d.cat))];
-let cat = "すべて";
-
-const $ = id => document.getElementById(id);
-const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
-
-function card(d) {
-  return `<a class="card" href="${encodeURI(d.file)}" target="_blank" rel="noopener">
-    <div class="thumb"><span class="badge">PDF ・ ${d.pages}p</span><img src="${esc(d.thumb)}" alt="" loading="lazy"></div>
-    <h3>${esc(d.title)}</h3>
-    <p class="desc">${esc(d.desc)}</p>
-    <p class="meta">${esc(d.company)} ・ ${esc(d.cat)}</p>
-  </a>`;
-}
-
-function render() {
-  const kw = $("q").value.trim().toLowerCase();
-  const hit = d => !kw || (d.title + d.desc + d.cat + d.company).toLowerCase().includes(kw);
-  const items = (cat === "すべて" ? MAIN : DOCS.filter(d => d.cat === cat)).filter(hit);
-  const partner = PARTNER.filter(hit);
-  $("list").innerHTML = items.map(card).join("");
-  $("list-title").textContent = cat === "すべて" ? "すべての資料" : cat;
-  $("count").textContent = items.length + "件";
-  $("empty").hidden = items.length > 0;
-  $("pickup").innerHTML = MAIN.filter(d => d.pickup).map(card).join("");
-  $("partner").innerHTML = partner.map(card).join("");
-  $("partner-sec").hidden = cat !== "すべて" || !partner.length;
-  $("pickup-sec").hidden = cat !== "すべて" || !!kw;
-}
-
-$("chips").innerHTML = CATS.map(c => `<button class="chip" aria-pressed="${c === cat}">${esc(c)}</button>`).join("");
-$("chips").addEventListener("click", e => {
-  const b = e.target.closest(".chip"); if (!b) return;
-  cat = b.textContent;
-  [...$("chips").children].forEach(x => x.setAttribute("aria-pressed", x === b));
-  render();
-});
-$("q").addEventListener("input", render);
-
-// ---- 一括ダウンロード（Microsoft Forms） ----
-const FORM_URL = "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gB-McVykvUW-6uYJiUoaSuxHkaCghfpOg1lrRgKgWxpURElDVTZZU1FJUTYyU1VSRk1ZRUJOTFNSQy4u";
-const dlg = $("dl-dialog"), frame = $("dl-frame");
-$("dl-ext").href = FORM_URL;
-$("dl-open").addEventListener("click", () => {
-  if (!frame.src) frame.src = FORM_URL + "&embed=true";
-  dlg.showModal();
-});
-$("dl-cancel").addEventListener("click", () => dlg.close());
-dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
-render();
-</script>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

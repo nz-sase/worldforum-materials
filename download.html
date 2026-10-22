@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>シスラボ 配布資料</title>
+<link rel="icon" href="favicon.ico">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- メール（Power Automate）でお送りするページ。全資料をまとめて保存できる -->
+<div class="ribbon">
+  <div class="ribbon-inner">
+    <a class="logos" href="https://www.syslabo.com/" target="_blank" rel="noopener"><img class="logo" src="SyslaboLogo.svg" alt="SYSLABO"></a>
+  </div>
+</div>
+
+<div class="wrap">
+  <header>
+    <span class="event" id="eventName"></span>
+    <h1>配布資料のダウンロード</h1>
+    <p class="lead">ブースにお立ち寄りいただき、誠にありがとうございました。<br>全ての資料を1つのZIPファイルにまとめて、自動でダウンロードします。</p>
+  </header>
+
+  <div class="send dl-box">
+    <p class="dl-status">保存が始まるまで数秒かかります。しばらくお待ちください。</p>
+    <button class="dl-main" id="saveAll" type="button"></button>
+    <p class="send-note">ダウンロードが始まらない場合は、上のボタンを押してください。<br>それでも保存できない場合は、このページを Chrome や Edge で開き直してお試しください。</p>
+  </div>
+
+  <p class="dl-back"><a href="./">配布資料一覧ページへ</a></p>
+
+  <footer id="footNote"></footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/common.js"></script>
+<script>
+  $("eventName").textContent = SITE.eventName;
+  $("footNote").textContent = SITE.footNote;
+  $("saveAll").innerHTML = ICON_DL + "全ての資料をZIPで保存";
+  $("saveAll").addEventListener("click", () => saveDocs(DOCS, [$("saveAll")]));
+  /* メールのリンクから開いたら、そのまま全資料のZIPを保存する。
+     ブラウザに止められたときのために、上のボタンも残しておく */
+  saveDocs(DOCS, [$("saveAll")]);
+</script>
+</body>
+</html>
