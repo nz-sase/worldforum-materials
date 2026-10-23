@@ -4,7 +4,7 @@
    pickup: true にすると「まずはこちらから」にも表示されます
    ====================================================== */
 const SITE = {
-  eventName: "ServiceNow World Forum Tokyo 2026",
+  eventName: "ServiceNow® World Forum Tokyo 2026",
   partner: "NowTech",   /* この会社の資料は下の「出展・登壇」枠にまとめて表示 */
   partnerTitle: "NowTech も出展・登壇します",
   partnerLead: "株式会社NowTechは、シスラボのグループ会社です。今回のWorld Forumにも出展・登壇しておりますので、あわせてご覧ください。",
